@@ -3,7 +3,7 @@ from statistics import NormalDist
 import numpy as np
 import pandas as pd
 
-from load_data import (
+from .load_data import (
     DATE_COLUMN,
     DEFAULT_REGION,
     TARGET,
