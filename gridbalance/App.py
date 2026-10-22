@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, render_template, request
 
-from anomaly_detection import (
+from .anomaly_detection import (
     detect_anomalies,
     get_anomaly_form_options,
 )
