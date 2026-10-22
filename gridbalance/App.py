@@ -6,7 +6,7 @@ from .anomaly_detection import (
     detect_anomalies,
     get_anomaly_form_options,
 )
-from eda_charts import get_eda_report
+from .eda_charts import get_eda_report
 from load_data import (
     DEFAULT_REGION,
     get_archives_overview,
