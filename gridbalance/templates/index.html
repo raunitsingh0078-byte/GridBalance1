@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Grid Balance Project</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- ========================================================= -->
+<!-- HEADER                                                    -->
+<!-- ========================================================= -->
+
+<header class="topbar">
+
+    <h1>
+
+        <svg class="brand-ico" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M13 2 4.5 13.5H11l-1 8.5L19 10.5h-6.5z"
+                  fill="currentColor"/>
+        </svg>
+
+        <span>Grid Balance Project</span>
+
+        <span class="header-sub">Demand Forecasting &amp; Meter Anomaly Detection</span>
+
+    </h1>
+
+    {% if site_stats %}
+        <div class="topbar-chips">
+            <span class="kpi-chip"><span class="live-dot"></span>{{ site_stats.region_count }} regions</span>
+            <span class="kpi-chip">combined {{ '{:,.0f}'.format(site_stats.master_rows) }} readings</span>
+            <span class="kpi-chip hide-sm">{{ site_stats.total_size_mb }} MB</span>
+        </div>
+    {% endif %}
+
+</header>
+
+
+<!-- ========================================================= -->
+<!-- MAIN LAYOUT                                               -->
+<!-- ========================================================= -->
+
+<div class="layout">
+
+
+    <!-- ===================================================== -->
+    <!-- LEFT SIDEBAR                                          -->
+    <!-- ===================================================== -->
+
+    <nav class="sidebar">
+
+        <ul>
+
+
+            <!-- ============================================= -->
+            <!-- HOME                                          -->
+            <!-- ============================================= -->
+
+            <li>
+
+                <a href="{{ url_for('index') }}"
+                   class="menu-item {% if active == 'none' %}active{% endif %}">
+
+                    <svg class="mi-ico" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 11.5 12 4l9 7.5"/>
+                        <path d="M5.5 10v9.5h13V10"/>
+                        <path d="M9.5 19.5v-5h5v5"/>
+                    </svg>
+
+                    <span>Home</span>
+
+                </a>
+
+            </li>
+
+
+            <!-- ============================================= -->
+            <!-- DATA LOADING                                  -->
+            <!-- ============================================= -->
+
+            <li>
+
+                <a href="{{ url_for('data_loading') }}"
+                   class="menu-item {% if active == 'data-loading' %}active{% endif %}">
+
+                    <svg class="mi-ico" viewBox="0 0 24 24" aria-hidden="true">
+                        <ellipse cx="12" cy="5.5" rx="8" ry="3"/>
+                        <path d="M4 5.5v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/>
+                        <path d="M4 11.5v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/>
+                    </svg>
+
+                    <span>Data Loading</span>
+
+                </a>
+
+            </li>
+
+
+            <!-- ============================================= -->
+            <!-- PREPROCESSING                                 -->
+            <!-- ============================================= -->
+
+            <li>
+
+                <a href="{{ url_for('preprocessing') }}"
+                   class="menu-item {% if active == 'preprocessing' %}active{% endif %}">
+
+                    <svg class="mi-ico" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 6.5h9M4 12h16M4 17.5h11"/>
+                        <circle cx="16.5" cy="6.5" r="2"/>
+                        <circle cx="7.5" cy="12" r="2"/>
+                        <circle cx="9.5" cy="17.5" r="2"/>
+                    </svg>
+
+                    <span>Preprocessing</span>
+
+                </a>
+
+            </li>
+
+
+            <!-- ============================================= -->
+            <!-- EDA & VISUALISATION                           -->
+            <!-- ============================================= -->
+
+            <li>
+
+                <a href="{{ url_for('eda_analysis') }}"
+                   class="menu-item {% if active == 'eda-analysis' %}active{% endif %}">
+
+                    <svg class="mi-ico" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 20h16"/>
+                        <path d="M6 16l4.5-6 3.5 4 4-6.5"/>
+                    </svg>
+
+                    <span>EDA &amp; Graphs</span>
+
+                </a>
+
+            </li>
+
+
+            <!-- ============================================= -->
+            <!-- NETWORK OVERVIEW                              -->
+            <!-- ============================================= -->
+
+            <li>
+
+                <a href="{{ url_for('network_overview') }}"
+                   class="menu-item {% if active == 'network' %}active{% endif %}">
+
+                    <svg class="mi-ico" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="6" cy="6" r="2.4"/>
+                        <circle cx="18" cy="6" r="2.4"/>
+                        <circle cx="12" cy="18" r="2.4"/>
+                        <path d="m8 7 2 8.5M16 7l-2 8.5M8.4 6h7.2"/>
+                    </svg>
+
+                    <span>Network Overview</span>
+
+                </a>
+
+            </li>
+
+
+            <!-- ============================================= -->
+            <!-- MODEL TRAINING                                -->
+            <!-- ============================================= -->
+
+            <li>
+
+                <a href="{{ url_for('model_training') }}"
+                   class="menu-item {% if active == 'model-training' %}active{% endif %}">
+
+                    <svg class="mi-ico" viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="6" y="6" width="12" height="12" rx="2"/>
+                        <rect x="10" y="10" width="4" height="4" rx="1"/>
+                        <path d="M9 3v2.5M15 3v2.5M9 18.5V21M15 18.5V21M3 9h2.5M3 15h2.5M18.5 9H21M18.5 15H21"/>
+                    </svg>
+
+                    <span>Model Training</span>
+
+                </a>
+
+            </li>
+
+
+            <!-- ============================================= -->
+            <!-- FORECAST                                      -->
+            <!-- ============================================= -->
+
+            <li>
+
+                <a href="{{ url_for('forecast') }}"
+                   class="menu-item {% if active == 'forecast' %}active{% endif %}">
+
+                    <svg class="mi-ico" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3.5 16.5 9 9.5l4 4.5 7.5-8.5"/>
+                        <path d="M5 20.5h14"/>
+                        <path d="M16.5 5h4v4"/>
+                    </svg>
+
+                    <span>Demand Forecast</span>
+
+                </a>
+
+            </li>
+
+
+            <!-- ============================================= -->
+            <!-- ANOMALY DETECTION                             -->
+            <!-- ============================================= -->
+
+            <li>
+
+                <a href="{{ url_for('anomaly_detection') }}"
+                   class="menu-item {% if active == 'anomaly-detection' %}active{% endif %}">
+
+                    <svg class="mi-ico" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6z"/>
+                        <path d="M12 8v5"/>
+                        <circle cx="12" cy="15.6" r="0.4" fill="currentColor"/>
+                    </svg>
+
+                    <span>Anomaly Detection</span>
+
+                </a>
+
+            </li>
+
+
+        </ul>
+
+        <div class="sidebar-note">
+            Hourly PJM and ISO archives stored inside the project
+            folder. Each stage reads the same cleaned series.
+        </div>
+
+    </nav>
+
+
+
+    <!-- ===================================================== -->
+    <!-- MAIN CONTENT                                          -->
+    <!-- ===================================================== -->
+
+    <main class="content">
+
+
+
+        <!-- ================================================= -->
+        <!-- GLOBAL ERROR MESSAGE                              -->
+        <!-- ================================================= -->
+
+        {% if error %}
+
+            <div class="error">
+
+                <strong>Error:</strong>
+
+                {{ error }}
+
+            </div>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- HOME PAGE                                         -->
+        <!-- ================================================= -->
+
+        {% if active == 'none' %}
+
+            <section class="page-section">
+
+                <div class="hero">
+
+                    <div class="hero-eyebrow">PJM &amp; ISO · HOURLY GRID ANALYTICS</div>
+
+                    <h2 class="hero-title">
+                        Twelve regions.
+                        <span>One combined dataset.</span>
+                    </h2>
+
+                    <p class="hero-sub">
+                        Every regional load archive has been stacked into a
+                        single combined dataset of
+                        <strong>{{ '{:,.0f}'.format(site_stats.master_rows) }}</strong>
+                        hourly readings. Inside this project, one pipeline loads
+                        the data, engineers features, trains and compares
+                        regressors, forecasts demand hour by hour, then scans
+                        the meter records for anomalies &mdash; all regions,
+                        all in one place.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <a class="button" href="{{ url_for('network_overview') }}">
+                            View the network
+                        </a>
+
+                        <a class="button secondary"
+                           href="{{ url_for('eda_analysis') }}">
+                            Explore EDA charts
+                        </a>
+
+                        <a class="button ghost"
+                           href="{{ url_for('data_loading') }}">
+                            Browse the archives
+                        </a>
+
+                    </div>
+
+                    <div class="kpi-strip">
+
+                        <span class="kpi-chip"><span class="live-dot"></span>{{ site_stats.region_count }} regions</span>
+
+                        <span class="kpi-chip">{{ '{:,.0f}'.format(site_stats.master_rows) }} readings combined</span>
+
+                        <span class="kpi-chip">{{ site_stats.total_size_mb }} MB total</span>
+
+                        <span class="kpi-chip">parquet + csv archives</span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ===================================== -->
+                <!-- PIPELINE OVERVIEW                      -->
+                <!-- ===================================== -->
+
+                <h3>Pipeline Overview</h3>
+
+                <div class="metric-grid">
+
+                    <div class="metric-card accent">
+                        <div class="metric-label">Archives Found</div>
+                        <div class="metric-value">{{ overview.total_files }}</div>
+                        <div class="metric-note">hourly CSV files</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-label">Total Size</div>
+                        <div class="metric-value">{{ overview.total_size_mb }} MB</div>
+                        <div class="metric-note">held in the project folder</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-label">Models Compared</div>
+                        <div class="metric-value">4</div>
+                        <div class="metric-note">plus 2 naive baselines</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-label">Engineered Features</div>
+                        <div class="metric-value">21</div>
+                        <div class="metric-note">calendar, cyclical, lag, rolling</div>
+                    </div>
+
+                </div>
+
+
+                <!-- ===================================== -->
+                <!-- STAGES                                  -->
+                <!-- ===================================== -->
+
+                <h3>Project Stages</h3>
+
+                <div class="table-wrapper">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Stage</th>
+                                <th>Module</th>
+                                <th>Output</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>Data Loading</td>
+                                <td>load_data.py</td>
+                                <td>Rows, columns, time span, load profile</td>
+                            </tr>
+
+                            <tr>
+                                <td>Preprocessing</td>
+                                <td>preprocessing.py</td>
+                                <td>Cleaned series and model features</td>
+                            </tr>
+
+                            <tr>
+                                <td>EDA &amp; Visualisation</td>
+                                <td>eda_charts.py</td>
+                                <td>Nine server side SVG charts per region</td>
+                            </tr>
+
+                            <tr>
+                                <td>Combined Dataset</td>
+                                <td>load_data.py</td>
+                                <td>All regions stacked into all_hourly_long.parquet</td>
+                            </tr>
+
+                            <tr>
+                                <td>Network Overview</td>
+                                <td>network_overview.py</td>
+                                <td>Cross region charts from the combined archive</td>
+                            </tr>
+
+                            <tr>
+                                <td>Model Training</td>
+                                <td>model_training.py</td>
+                                <td>MAE, RMSE, R² and MAPE per model</td>
+                            </tr>
+
+                            <tr>
+                                <td>Demand Forecast</td>
+                                <td>prediction.py</td>
+                                <td>Hour by hour demand with a confidence band</td>
+                            </tr>
+
+                            <tr>
+                                <td>Anomaly Detection</td>
+                                <td>anomaly_detection.py</td>
+                                <td>Meter faults ranked by severity</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- ===================================== -->
+                <!-- AVAILABLE ARCHIVES                    -->
+                <!-- ===================================== -->
+
+                    <h3>Available Archives</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Region</th>
+                                    <th>File</th>
+                                    <th>Demand Column</th>
+                                    <th class="num">Size</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in overview.regions %}
+
+                                    <tr>
+                                        <td>{{ row.label }}</td>
+                                        <td>{{ row.file }}</td>
+                                        <td>{{ row.value_column }}</td>
+                                        <td class="num">{{ row.size_mb }} MB</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                {% if overview.combined_available %}
+
+                                    <tr>
+                                        <td>All regions, wide file</td>
+                                        <td>{{ overview.combined_file }}</td>
+                                        <td>{{ overview.combined_format }}</td>
+                                        <td class="num">{{ overview.combined_size_mb }} MB</td>
+                                    </tr>
+
+                                {% endif %}
+
+                                {% if overview.master_available %}
+
+                                    <tr>
+                                        <td>All regions, long format</td>
+                                        <td>{{ overview.master_file }}</td>
+                                        <td>{{ overview.master_rows }} readings</td>
+                                        <td class="num">{{ overview.master_size_mb }} MB</td>
+                                    </tr>
+
+                                {% endif %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+            </section>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- SHARED REGION PICKER                              -->
+        <!-- ================================================= -->
+
+        {% if active in ['data-loading', 'preprocessing', 'eda-analysis', 'model-training'] %}
+
+            <form method="GET" class="region-picker">
+
+                <div class="field-block">
+
+                    <label class="field-label" for="region">
+                        Region Archive
+                    </label>
+
+                    <select id="region" name="region">
+
+                        {% for item in regions %}
+
+                            <option value="{{ item.key }}"
+                                    {% if item.selected %}selected{% endif %}>
+
+                                {{ item.label }} — {{ item.key }}.csv
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-submit">
+                    <button type="submit">
+                        Load Region
+                    </button>
+                </div>
+
+            </form>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- DATA LOADING SECTION                              -->
+        <!-- ================================================= -->
+
+        {% if active == 'data-loading' %}
+
+            <section class="page-section">
+
+                <h2>Data Loading</h2>
+
+                <p>
+                    Every hourly archive stored in the project folder is read
+                    with pandas. This page reports its shape, time span,
+                    missing values and the shape of the demand curve.
+                </p>
+
+                {% if summary %}
+
+
+                    <!-- ================================= -->
+                    <!-- DATASET SUMMARY                   -->
+                    <!-- ================================= -->
+
+                    <h3>Dataset Summary</h3>
+
+                    <table class="summary-table">
+
+                        <tr>
+                            <td>Region</td>
+                            <td>{{ summary.region_label }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Archive File</td>
+                            <td>{{ summary.file }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Demand Column</td>
+                            <td>{{ summary.value_column }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of Rows</td>
+                            <td>{{ summary.n_rows }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of Columns</td>
+                            <td>{{ summary.n_cols }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>First Reading</td>
+                            <td>{{ summary.start_time }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Last Reading</td>
+                            <td>{{ summary.end_time }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Duplicate Rows</td>
+                            <td>{{ summary.duplicate_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Repeated Timestamps</td>
+                            <td>{{ summary.duplicate_timestamps }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Missing Demand Values</td>
+                            <td>{{ summary.missing_counts['Demand_MW'] }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Missing Hours in Series</td>
+                            <td>{{ summary.missing_hours }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Longest Gap</td>
+                            <td>{{ summary.longest_gap_hours }} hours</td>
+                        </tr>
+
+                    </table>
+
+
+
+                    <!-- ================================= -->
+                    <!-- NUMERICAL STATISTICS               -->
+                    <!-- ================================= -->
+
+                    <h3>Numerical Statistics</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Feature</th>
+                                    <th class="num">Minimum</th>
+                                    <th class="num">Maximum</th>
+                                    <th class="num">Mean</th>
+                                    <th class="num">Standard Deviation</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for feature, stats in summary.numerical_stats.items() %}
+
+                                    <tr>
+                                        <td>{{ feature }}</td>
+                                        <td class="num">{{ stats.min }}</td>
+                                        <td class="num">{{ stats.max }}</td>
+                                        <td class="num">{{ stats.mean }}</td>
+                                        <td class="num">{{ stats.std }}</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                    <!-- ================================= -->
+                    <!-- COLUMN INFORMATION                -->
+                    <!-- ================================= -->
+
+                    <h3>Column Information</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Column</th>
+                                    <th>Data Type</th>
+                                    <th class="num">Missing Values</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for column, dtype in summary.dtypes.items() %}
+
+                                    <tr>
+                                        <td>{{ column }}</td>
+                                        <td>{{ dtype }}</td>
+                                        <td class="num">{{ summary.missing_counts[column] }}</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                    <!-- ================================= -->
+                    <!-- HOURLY PROFILE                    -->
+                    <!-- ================================= -->
+
+                    <h3>Average Demand by Hour of Day</h3>
+
+                    {% set peak_hour_value = summary.hourly_profile | map(attribute='mean_demand') | max %}
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Hour</th>
+                                    <th class="num">Average Demand (MW)</th>
+                                    <th>Relative Load</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in summary.hourly_profile %}
+
+                                    <tr>
+                                        <td>{{ row.hour }}</td>
+                                        <td class="num">{{ row.mean_demand }}</td>
+                                        <td>
+                                            <div class="bar-track">
+                                                <div class="bar-fill"
+                                                     style="width: {{ (100 * row.mean_demand / peak_hour_value) | round(1) }}%">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                    <!-- ================================= -->
+                    <!-- WEEKDAY PROFILE                   -->
+                    <!-- ================================= -->
+
+                    <h3>Average Demand by Weekday</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Weekday</th>
+                                    <th class="num">Average Demand (MW)</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in summary.weekday_profile %}
+
+                                    <tr>
+                                        <td>{{ row.weekday }}</td>
+                                        <td class="num">{{ row.mean_demand }}</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                    <!-- ================================= -->
+                    <!-- DATA PREVIEW                     -->
+                    <!-- ================================= -->
+
+                    <h3>First 10 Readings</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Datetime</th>
+                                    <th class="num">Demand_MW</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in summary.preview %}
+
+                                    <tr>
+                                        <td>{{ row['Datetime'] }}</td>
+                                        <td class="num">{{ row['Demand_MW'] }}</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% endif %}
+
+
+
+                <!-- ===================================== -->
+                <!-- COMBINED ARCHIVE                    -->
+                <!-- ===================================== -->
+
+                {% if combined_summary %}
+
+                    <h3>Combined Archive</h3>
+
+                    <p>
+                        The project folder also holds one wide file carrying
+                        every regional series on a shared hourly index. Each
+                        column is only filled in over that region's own date
+                        range, which is why the valid reading counts line up
+                        with the per region archives above.
+                    </p>
+
+                    <table class="summary-table">
+
+                        <tr>
+                            <td>File</td>
+                            <td>{{ combined_summary.file }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Format</td>
+                            <td>{{ combined_summary.format }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Rows</td>
+                            <td>{{ combined_summary.rows }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Columns</td>
+                            <td>{{ combined_summary.n_cols }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Regional Demand Columns</td>
+                            <td>{{ combined_summary.demand_columns }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Time Span</td>
+                            <td>{{ combined_summary.start_time }} to {{ combined_summary.end_time }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Repeated Timestamps</td>
+                            <td>{{ combined_summary.duplicate_timestamps }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Read Note</td>
+                            <td>{{ combined_summary.note }}</td>
+                        </tr>
+
+                    </table>
+
+
+
+                    <!-- ================================= -->
+                    <!-- COLUMN COVERAGE                    -->
+                    <!-- ================================= -->
+
+                    <h4>Coverage by Regional Column</h4>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Column</th>
+                                    <th class="num">Valid Readings</th>
+                                    <th class="num">Empty Slots</th>
+                                    <th class="num">Coverage</th>
+                                    <th>First Valid</th>
+                                    <th>Last Valid</th>
+                                    <th class="num">Mean (MW)</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in combined_summary.columns %}
+
+                                    <tr>
+                                        <td>{{ row.column }}</td>
+                                        <td class="num">{{ row.valid_readings }}</td>
+                                        <td class="num">{{ row.null_readings }}</td>
+                                        <td class="num">{{ row.coverage }}%</td>
+                                        <td>{{ row.first_valid }}</td>
+                                        <td>{{ row.last_valid }}</td>
+                                        <td class="num">{{ row.mean_demand }}</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <p class="footnote">
+                        PJM_Load covers the early years and PJME the later
+                        ones, so the total load column and the eastern
+                        interregional column split the timeline rather than
+                        overlapping.
+                    </p>
+
+                {% endif %}
+
+            </section>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- PREPROCESSING SECTION                              -->
+        <!-- ================================================= -->
+
+        {% if active == 'preprocessing' %}
+
+            <section class="page-section">
+
+                <h2>Preprocessing</h2>
+
+                <p>
+                    The raw archives are stored newest first and contain
+                    daylight saving repeats and short gaps. This stage sorts
+                    the series, rebuilds a complete hourly index, removes
+                    impossible readings, clips extreme spikes and then builds
+                    the calendar, cyclical, lag and rolling features used by
+                    the models.
+                </p>
+
+                {% if preprocessing_summary %}
+
+
+                    <!-- ================================= -->
+                    <!-- CLEANING SUMMARY                  -->
+                    <!-- ================================= -->
+
+                    <h3>Cleaning Summary</h3>
+
+                    <table class="summary-table">
+
+                        <tr>
+                            <td>Region</td>
+                            <td>{{ preprocessing_summary.region_label }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Source File</td>
+                            <td>{{ preprocessing_summary.source_file }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Original Rows</td>
+                            <td>{{ preprocessing_summary.original_rows }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Original Columns</td>
+                            <td>{{ preprocessing_summary.original_columns }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Duplicate Rows Removed</td>
+                            <td>{{ preprocessing_summary.duplicates_removed }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Repeated Timestamps Removed</td>
+                            <td>{{ preprocessing_summary.duplicate_timestamps_removed }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Rows Reordered</td>
+                            <td>{{ preprocessing_summary.rows_reordered }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Missing Hours Filled</td>
+                            <td>{{ preprocessing_summary.hours_filled }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Negative Values Fixed</td>
+                            <td>{{ preprocessing_summary.negative_values_fixed }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Outliers Clipped</td>
+                            <td>{{ preprocessing_summary.outliers_clipped }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Missing Values Before</td>
+                            <td>{{ preprocessing_summary.missing_values_before }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Missing Values After</td>
+                            <td>{{ preprocessing_summary.missing_values_after }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Processed Rows</td>
+                            <td>{{ preprocessing_summary.processed_rows }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Rows Used For Modelling</td>
+                            <td>{{ preprocessing_summary.modelling_rows }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Feature Count</td>
+                            <td>{{ preprocessing_summary.feature_count }}</td>
+                        </tr>
+
+                    </table>
+
+                    <div class="note">
+                        Outliers are clipped to the range
+                        {{ preprocessing_summary.lower_bound }} MW and
+                        {{ preprocessing_summary.upper_bound }} MW,
+                        taken from three times the interquartile range.
+                    </div>
+
+
+
+                    <!-- ================================= -->
+                    <!-- FEATURE LIST                      -->
+                    <!-- ================================= -->
+
+                    <h3>Engineered Features</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Column</th>
+                                    <th>Group</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in preprocessing_summary.feature_table %}
+
+                                    <tr>
+                                        <td>{{ row.feature }}</td>
+                                        <td><span class="tag">{{ row.group }}</span></td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                    <!-- ================================= -->
+                    <!-- FEATURE PREVIEW                   -->
+                    <!-- ================================= -->
+
+                    <h3>First 10 Modelled Rows</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>hour</th>
+                                    <th>dayofweek</th>
+                                    <th>is_peak_hour</th>
+                                    <th class="num">lag_1</th>
+                                    <th class="num">lag_24</th>
+                                    <th class="num">lag_168</th>
+                                    <th class="num">rolling_24</th>
+                                    <th class="num">Demand_MW</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in preprocessing_summary.feature_preview %}
+
+                                    <tr>
+                                        <td>{{ row.hour }}</td>
+                                        <td>{{ row.dayofweek }}</td>
+                                        <td>{{ row.is_peak_hour }}</td>
+                                        <td class="num">{{ row.demand_lag_1 }}</td>
+                                        <td class="num">{{ row.demand_lag_24 }}</td>
+                                        <td class="num">{{ row.demand_lag_168 }}</td>
+                                        <td class="num">{{ row.demand_rolling_24 }}</td>
+                                        <td class="num">{{ row['Demand_MW'] }}</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <p class="footnote">
+                        Lag and rolling columns are shifted by one hour, so a
+                        model never sees the reading it is being asked to
+                        predict.
+                    </p>
+
+                {% endif %}
+
+            </section>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- EDA & VISUALISATION SECTION                       -->
+        <!-- ================================================= -->
+
+        {% if active == 'eda-analysis' %}
+
+            <section class="page-section">
+
+                <h2>EDA &amp; Visualisation</h2>
+
+                <p>
+                    Exploratory analysis of the selected region drawn entirely
+                    as inline SVG: line, bar, histogram, box plot, scatter,
+                    correlation heatmap and donut charts. No charting library
+                    or network connection is needed.
+                </p>
+
+                {% if eda_report %}
+
+                    <div class="metric-grid">
+
+                        <div class="metric-card accent">
+                            <div class="metric-label">Rows</div>
+                            <div class="metric-value">{{ '{:,.0f}'.format(eda_report.stats.rows) }}</div>
+                            <div class="metric-note">{{ eda_report.stats.start[:10] }} → {{ eda_report.stats.end[:10] }}</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Mean Demand</div>
+                            <div class="metric-value">{{ '{:,.0f}'.format(eda_report.stats.mean) }} MW</div>
+                            <div class="metric-note">median {{ '{:,.0f}'.format(eda_report.stats.median) }} MW</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Spread</div>
+                            <div class="metric-value">{{ '{:,.0f}'.format(eda_report.stats.std) }}</div>
+                            <div class="metric-note">σ, IQR {{ '{:,.0f}'.format(eda_report.stats.iqr) }} MW</div>
+                        </div>
+
+                        <div class="metric-card warn">
+                            <div class="metric-label">Range</div>
+                            <div class="metric-value">{{ '{:,.0f}'.format(eda_report.stats.min) }} – {{ '{:,.0f}'.format(eda_report.stats.max) }}</div>
+                            <div class="metric-note">min – max demand, MW</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Skewness</div>
+                            <div class="metric-value">{{ eda_report.stats.skewness }}</div>
+                            <div class="metric-note">right tail if above zero</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Kurtosis</div>
+                            <div class="metric-value">{{ eda_report.stats.kurtosis }}</div>
+                            <div class="metric-note">tail weight of the curve</div>
+                        </div>
+
+                    </div>
+
+                    <div class="chart-grid">
+
+                        {% for chart in eda_report.charts %}
+
+                            <div class="chart-card{% if chart.wide %} chart-wide{% endif %}">
+
+                                <div class="chart-head">
+
+                                    <div>
+                                        <h3 class="chart-title">{{ chart.title }}</h3>
+                                        <p class="chart-sub">{{ chart.subtitle }}</p>
+                                    </div>
+
+                                    <span class="tag glass-tag">{{ chart.kind }}</span>
+
+                                </div>
+
+                                <div class="chart-body">
+                                    {{ chart.svg | safe }}
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <p class="footnote">
+                        Every chart is generated server side from
+                        {{ '{:,.0f}'.format(eda_report.stats.rows) }} hourly
+                        readings for {{ eda_report.region_label }}
+                        ({{ eda_report.file }}).
+                    </p>
+
+                {% endif %}
+
+            </section>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- NETWORK OVERVIEW SECTION                          -->
+        <!-- ================================================= -->
+
+        {% if active == 'network' %}
+
+            <section class="page-section network-section">
+
+                <h2>Network Overview</h2>
+
+                <p>
+                    All twelve regional archives stacked into
+                    {{ network_report.stats.total_rows }}
+                    hourly readings spanning
+                    {{ network_report.stats.span_start }} to
+                    {{ network_report.stats.span_end }}. The charts compare
+                    every region side by side, so one page shows the whole
+                    grid at once.
+                </p>
+
+                {% if network_report %}
+
+                    <div class="metric-grid">
+
+                        <div class="metric-card accent">
+                            <div class="metric-label">Regions Combined</div>
+                            <div class="metric-value">{{ network_report.stats.region_count }}</div>
+                            <div class="metric-note">in one long archive</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Combined Readings</div>
+                            <div class="metric-value">{{ '{:,.0f}'.format(network_report.stats.total_rows) }}</div>
+                            <div class="metric-note">hours of load data</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Average Demand</div>
+                            <div class="metric-value">{{ network_report.stats.average_demand_all }} MW</div>
+                            <div class="metric-note">mean across all regions</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Combined Energy</div>
+                            <div class="metric-value">{{ network_report.stats.total_energy_twh }} TWh</div>
+                            <div class="metric-note">sum of all readings</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Largest Region</div>
+                            <div class="metric-value">{{ network_report.stats.largest_region }}</div>
+                            <div class="metric-note">peak average load</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Smallest Region</div>
+                            <div class="metric-value">{{ network_report.stats.smallest_region }}</div>
+                            <div class="metric-note">smallest average load</div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================= -->
+                    <!-- COMBINED ARCHIVE NOTE              -->
+                    <!-- ================================= -->
+
+                    <h3>Combined Archive</h3>
+
+                    <div class="note">
+                        The master long-format dataset
+                        <strong>{{ site_stats.master_file }}</strong>
+                        holds one row per region per hour &mdash; region, label,
+                        timestamp and demand &mdash; and every chart on this page
+                        is rendered from it. The wide combined archive
+                        <strong>{{ site_stats.combined_file }}</strong> keeps all
+                        series side by side with each region starting and ending
+                        on its own dates.
+                    </div>
+
+
+                    <!-- ================================= -->
+                    <!-- CHARTS                             -->
+                    <!-- ================================= -->
+
+                    <div class="chart-grid">
+
+                        {% for chart in network_report.charts %}
+
+                            {% if chart.wide %}
+                                <div class="chart-card wide">
+                            {% else %}
+                                <div class="chart-card">
+                            {% endif %}
+
+                                <h3 class="chart-title">{{ chart.title }}</h3>
+
+                                <p class="chart-subtitle">{{ chart.subtitle }}</p>
+
+                                <span class="chart-badge">{{ chart.kind }}</span>
+
+                                <div class="chart-frame svg">
+                                    {{ chart.svg | safe }}
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- ================================= -->
+                    <!-- COMPARISON TABLE                   -->
+                    <!-- ================================= -->
+
+                    <h3>All Regions Side by Side</h3>
+
+                    <div class="data-table">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Region</th>
+                                    <th>Archive</th>
+                                    <th class="num">Readings</th>
+                                    <th class="num">Start</th>
+                                    <th class="num">End</th>
+                                    <th class="num">Mean (MW)</th>
+                                    <th class="num">Min (MW)</th>
+                                    <th class="num">Max (MW)</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for region in network_report.regions %}
+
+                                    <tr>
+
+                                        <td class="label" style="--bar-colour:
+                                            {{ loop.index0 | el_region_colour }};">
+                                            {{ region.label }}
+                                        </td>
+
+                                        <td class="mono">{{ region.file }}</td>
+                                        <td class="num">{{ '{:,.0f}'.format(region.rows) }}</td>
+                                        <td class="num mono">{{ region.start }}</td>
+                                        <td class="num mono">{{ region.end }}</td>
+                                        <td class="num strong">{{ region.mean }}</td>
+                                        <td class="num">{{ region.min }}</td>
+                                        <td class="num">{{ region.max }}</td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <p class="footnote">
+                        Sorted by average demand, largest first. The combined
+                        long archive is rebuilt once and cached, so all these
+                        numbers share the same cleaned readings.
+                    </p>
+
+                {% else %}
+
+                    <div class="note">
+                        The combined archive could not be assembled yet.
+                        {{ error }}
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- MODEL TRAINING SECTION                             -->
+        <!-- ================================================= -->
+
+        {% if active == 'model-training' %}
+
+            <section class="page-section">
+
+                <h2>Model Training</h2>
+
+                <p>
+                    Four regressors are trained on the engineered calendar,
+                    cyclical, lag and rolling features using a chronological
+                    split, so the test window always sits after the training
+                    window. Two naive baselines are scored the same way for
+                    comparison.
+                </p>
+
+                <div class="note">
+                    The first visit trains four models and takes a few
+                    seconds. Results are then cached per region, so coming
+                    back to this page is instant.
+                </div>
+
+                {% if results %}
+
+
+                    <!-- ================================= -->
+                    <!-- TRAINING INFORMATION               -->
+                    <!-- ================================= -->
+
+                    <h3>Training Information</h3>
+
+                    <div class="metric-grid">
+
+                        <div class="metric-card">
+                            <div class="metric-label">Region</div>
+                            <div class="metric-value">{{ results.region_label }}</div>
+                            <div class="metric-note">{{ results.target }} in {{ results.target_unit }}</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Training Rows</div>
+                            <div class="metric-value">{{ results.training_rows }}</div>
+                            <div class="metric-note">of {{ results.train_window }} used</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Testing Rows</div>
+                            <div class="metric-value">{{ results.testing_rows }}</div>
+                            <div class="metric-note">{{ (results.test_size * 100) | int }} percent held out</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Features</div>
+                            <div class="metric-value">{{ results.features }}</div>
+                            <div class="metric-note">per hourly row</div>
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ================================= -->
+                    <!-- MODEL PERFORMANCE                 -->
+                    <!-- ================================= -->
+
+                    <h3>Model Performance</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Model</th>
+                                    <th class="num">MAE (MW)</th>
+                                    <th class="num">RMSE (MW)</th>
+                                    <th class="num">R²</th>
+                                    <th class="num">MAPE (%)</th>
+                                    <th class="num">Train Time (s)</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for name, metrics in results.results.items() %}
+
+                                    <tr {% if name == results.best_model %}class="best"{% endif %}>
+
+                                        <td>
+                                            {{ name }}
+                                            {% if name == results.best_model %}
+                                                <span class="tag green">Best</span>
+                                            {% endif %}
+                                        </td>
+
+                                        <td class="num">{{ metrics.mae }}</td>
+                                        <td class="num">{{ metrics.rmse }}</td>
+                                        <td class="num">{{ metrics.r2 }}</td>
+                                        <td class="num">{{ metrics.mape }}</td>
+                                        <td class="num">{{ results.timings[name] }}</td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                    <!-- ================================= -->
+                    <!-- BASELINE COMPARISON               -->
+                    <!-- ================================= -->
+
+                    <h3>Naive Baselines</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Baseline</th>
+                                    <th class="num">MAE (MW)</th>
+                                    <th class="num">RMSE (MW)</th>
+                                    <th class="num">R²</th>
+                                    <th class="num">MAPE (%)</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for name, metrics in results.baselines.items() %}
+
+                                    <tr>
+                                        <td>{{ name }}</td>
+                                        <td class="num">{{ metrics.mae }}</td>
+                                        <td class="num">{{ metrics.rmse }}</td>
+                                        <td class="num">{{ metrics.r2 }}</td>
+                                        <td class="num">{{ metrics.mape }}</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <p class="footnote">
+                        {{ results.best_model }} gives the lowest RMSE on the
+                        held out window. The test window averages
+                        {{ results.average_demand }} MW, with a peak of
+                        {{ results.peak_demand }} MW.
+                    </p>
+
+                {% endif %}
+
+            </section>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- FORECAST SECTION                                  -->
+        <!-- ================================================= -->
+
+        {% if active == 'forecast' %}
+
+            <section class="page-section">
+
+                <h2>Demand Forecast</h2>
+
+                <p>
+                    Choose a region and a horizon. The trained regressor is
+                    then stepped forward one hour at a time, using the
+                    forecast it just made as the lag input for the next
+                    hour, and the band shows two residual standard
+                    deviations around each prediction.
+                </p>
+
+
+                <!-- ===================================== -->
+                <!-- FORECAST FORM                        -->
+                <!-- ===================================== -->
+
+                <form method="POST" class="prediction-form">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="region">Region</label>
+
+                            <select id="region" name="region">
+
+                                {% for item in regions %}
+
+                                    <option value="{{ item.key }}"
+                                            {% if item.selected %}selected{% endif %}>
+
+                                        {{ item.label }}
+
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                            <span class="form-hint">
+                                Hourly archive used as the forecast history
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="horizon">Horizon (hours)</label>
+
+                            <select id="horizon" name="horizon">
+
+                                {% for option in options.horizons %}
+
+                                    <option value="{{ option }}"
+                                            {% if option == options.default_horizon %}selected{% endif %}>
+
+                                        {{ option }} hours
+
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                            <span class="form-hint">
+                                Up to one week ahead
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="model">Model</label>
+
+                            <select id="model" name="model">
+
+                                {% for option in options.models %}
+
+                                    <option value="{{ option }}"
+                                            {% if option == 'Auto' %}selected{% endif %}>
+
+                                        {{ option if option != 'Auto' else 'Auto (best model)' }}
+
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                            <span class="form-hint">
+                                Auto selects the best model from training
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-submit">
+                        <button type="submit">
+                            Run Forecast
+                        </button>
+                    </div>
+
+                </form>
+
+
+                <!-- ===================================== -->
+                <!-- FORECAST RESULT                      -->
+                <!-- ===================================== -->
+
+                {% if forecast_result %}
+
+                    <div class="result-banner">
+
+                        <h3>{{ forecast_result.region_label }} — next {{ forecast_result.horizon }} hours</h3>
+
+                        <div class="headline">
+                            {{ forecast_result.average_demand }} MW average
+                        </div>
+
+                        <div class="subline">
+                            {{ forecast_result.forecast_start }} to
+                            {{ forecast_result.forecast_end }} ·
+                            {{ forecast_result.model }} ·
+                            {{ forecast_result.difference_percent }} percent
+                            against the last seven day average of
+                            {{ forecast_result.recent_average }} MW
+                        </div>
+
+                    </div>
+
+                    <div class="metric-grid">
+
+                        <div class="metric-card accent">
+                            <div class="metric-label">Peak Demand</div>
+                            <div class="metric-value">{{ forecast_result.peak_demand }} MW</div>
+                            <div class="metric-note">at {{ forecast_result.peak_hour }}</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Lowest Demand</div>
+                            <div class="metric-value">{{ forecast_result.minimum_demand }} MW</div>
+                            <div class="metric-note">at {{ forecast_result.minimum_hour }}</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Average Demand</div>
+                            <div class="metric-value">{{ forecast_result.average_demand }} MW</div>
+                            <div class="metric-note">over the horizon</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Forecast Energy</div>
+                            <div class="metric-value">{{ forecast_result.total_energy_mwh }} MWh</div>
+                            <div class="metric-note">summed over the horizon</div>
+                        </div>
+
+                    </div>
+
+                    <h3>Hourly Forecast</h3>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Hour</th>
+                                    <th>Weekday</th>
+                                    <th class="num">Predicted (MW)</th>
+                                    <th class="num">Lower (MW)</th>
+                                    <th class="num">Upper (MW)</th>
+                                    <th class="num">Change</th>
+                                    <th>Relative Load</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in forecast_result.rows %}
+
+                                    <tr>
+                                        <td>{{ row.timestamp }}</td>
+                                        <td>{{ row.hour }}</td>
+                                        <td>{{ row.weekday }}</td>
+                                        <td class="num">{{ row.predicted_demand }}</td>
+                                        <td class="num">{{ row.lower_bound }}</td>
+                                        <td class="num">{{ row.upper_bound }}</td>
+                                        <td class="num">
+                                            {% if row.change >= 0 %}
+                                                <span class="tag green">+{{ row.change }}</span>
+                                            {% else %}
+                                                <span class="tag red">{{ row.change }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="bar-track">
+                                                <div class="bar-fill"
+                                                     style="width: {{ (100 * row.predicted_demand / forecast_result.peak_demand) | round(1) }}%">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- ANOMALY DETECTION SECTION                         -->
+        <!-- ================================================= -->
+
+        {% if active == 'anomaly-detection' %}
+
+            <section class="page-section">
+
+                <h2>Meter Anomaly Detection</h2>
+
+                <p>
+                    Each reading is compared with the median for its own
+                    weekday and hour over the last {{ '365' }} days, then
+                    scaled by the median absolute deviation of that slot.
+                    Readings beyond the cut off are reported as pattern
+                    deviations, and two hard meter faults are checked
+                    separately: impossible values and a sensor frozen on one
+                    number.
+                </p>
+
+
+                <!-- ===================================== -->
+                <!-- DETECTION FORM                      -->
+                <!-- ===================================== -->
+
+                <form method="POST" class="prediction-form">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="region">Region</label>
+
+                            <select id="region" name="region">
+
+                                {% for item in regions %}
+
+                                    <option value="{{ item.key }}"
+                                            {% if item.selected %}selected{% endif %}>
+
+                                        {{ item.label }}
+
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                            <span class="form-hint">
+                                Archive to scan
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="sensitivity">Sensitivity</label>
+
+                            <select id="sensitivity" name="sensitivity">
+
+                                {% for option in options.sensitivities %}
+
+                                    <option value="{{ option }}"
+                                            {% if option == options.default_sensitivity %}selected{% endif %}>
+
+                                        {{ (option * 100) }} percent
+
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                            <span class="form-hint">
+                                Share of readings allowed to be flagged
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-submit">
+                        <button type="submit">
+                            Detect Anomalies
+                        </button>
+                    </div>
+
+                </form>
+
+
+                <!-- ===================================== -->
+                <!-- DETECTION RESULT                    -->
+                <!-- ===================================== -->
+
+                {% if anomaly_result %}
+
+                    <div class="result-banner">
+
+                        <h3>{{ anomaly_result.region_label }} — meter scan</h3>
+
+                        <div class="headline">
+                            {{ anomaly_result.anomaly_count }} anomalies found
+                        </div>
+
+                        <div class="subline">
+                            {{ anomaly_result.anomaly_rate }} percent of
+                            {{ anomaly_result.total_points }} hourly readings ·
+                            robust z cut off {{ anomaly_result.threshold }} ·
+                            last {{ anomaly_result.window_days }} days
+                        </div>
+
+                    </div>
+
+                    <div class="metric-grid">
+
+                        <div class="metric-card {% if anomaly_result.anomaly_rate > 5 %}warn{% else %}accent{% endif %}">
+                            <div class="metric-label">Total Anomalies</div>
+                            <div class="metric-value">{{ anomaly_result.anomaly_count }}</div>
+                            <div class="metric-note">of {{ anomaly_result.total_points }} readings</div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-label">Pattern Deviations</div>
+                            <div class="metric-value">{{ anomaly_result.pattern_deviations }}</div>
+                            <div class="metric-note">{{ anomaly_result.pattern_rate }} percent of window</div>
+                        </div>
+
+                        <div class="metric-card {% if anomaly_result.stuck_readings %}bad{% endif %}">
+                            <div class="metric-label">Stuck Meters</div>
+                            <div class="metric-value">{{ anomaly_result.stuck_readings }}</div>
+                            <div class="metric-note">repeated value 6+ hours</div>
+                        </div>
+
+                        <div class="metric-card {% if anomaly_result.impossible_readings %}bad{% endif %}">
+                            <div class="metric-label">Impossible Readings</div>
+                            <div class="metric-value">{{ anomaly_result.impossible_readings }}</div>
+                            <div class="metric-note">zero or negative demand</div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================================= -->
+                    <!-- REASON BREAKDOWN                  -->
+                    <!-- ================================= -->
+
+                    {% if anomaly_result.reason_counts %}
+
+                        <h3>Findings by Type</h3>
+
+                        <div class="table-wrapper">
+
+                            <table class="data-table">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Finding</th>
+                                        <th class="num">Count</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    {% for reason, count in anomaly_result.reason_counts.items() %}
+
+                                        <tr>
+                                            <td class="wrap">{{ reason }}</td>
+                                            <td class="num">{{ count }}</td>
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- ================================= -->
+                    <!-- ANOMALY TABLE                     -->
+                    <!-- ================================= -->
+
+                    <h3>Most Severe Anomalies</h3>
+
+                    <p class="muted">
+                        Showing the {{ anomaly_result.rows_shown }} most severe
+                        findings, ranked by how far the reading sits from its
+                        normal level.
+                    </p>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Weekday</th>
+                                    <th>Hour</th>
+                                    <th class="num">Reading (MW)</th>
+                                    <th class="num">Expected (MW)</th>
+                                    <th class="num">Deviation</th>
+                                    <th class="num">Robust Z</th>
+                                    <th>Severity</th>
+                                    <th>Reason</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in anomaly_result.rows %}
+
+                                    <tr>
+                                        <td>{{ row.timestamp }}</td>
+                                        <td>{{ row.weekday }}</td>
+                                        <td>{{ row.hour }}</td>
+                                        <td class="num">{{ row.demand }}</td>
+                                        <td class="num">{{ row.expected }}</td>
+                                        <td class="num">{{ row.deviation }}</td>
+                                        <td class="num">{{ row.z_score }}</td>
+                                        <td class="severity-cell">
+                                            <div class="severity-track">
+                                                <div class="severity-fill"
+                                                     style="width: {{ (100 * row.severity) | round(1) }}%">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="wrap">{{ row.reason }}</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <p class="footnote">
+                        The cut off is taken from the empirical
+                        distribution of the robust z scores, so the
+                        sensitivity setting behaves exactly as named. A
+                        normal distribution cut off of
+                        {{ anomaly_result.reference_threshold }} would be far
+                        too tight for seasonal load data.
+                    </p>
+
+                {% endif %}
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+</div>
+
+<footer class="footer">
+
+    <span class="footer-brand">
+        <svg class="brand-ico" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M13 2 4.5 13.5H11l-1 8.5L19 10.5h-6.5z" fill="currentColor"/>
+        </svg>
+        Grid Balance Project
+    </span>
+
+    <span>·</span>
+
+    <span>{{ site_stats.region_count }} regional archives</span>
+
+    <span>·</span>
+
+    <span>{{ '{:,.0f}'.format(site_stats.master_rows) }} hourly readings combined</span>
+
+    <span>·</span>
+
+    <span class="live"><span class="live-dot"></span>combined {{ site_stats.master_file }}</span>
+
+</footer>
+
+</body>
+
+</html>

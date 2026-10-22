@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Balance - Demand Forecast & Meter Anomaly</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3l2 14 8-8 6 6L21 6V3"/>
+                <circle cx="8" cy="21" r="2"/>
+            </svg>
+            <span>Grid Balance</span>
+        </div>
+        
+        <nav class="main-nav">
+            <div class="region-selector" id="region-selector">
+                <select>
+                    <option value="PJM_Load_hourly" selected>PJM Load</option>
+                    <option value="AEP_hourly">AEP</option>
+                    <option value="NI_hourly">NI</option>
+                    <option value="COMED_hourly">COMED</option>
+                    <option value="DOM_hourly">DOM</option>
+                </select>
+            </div>
+            
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <button class="btn" onclick="runForecast()" style="padding: 8px 16px;">
+                    Forecast
+                </button>
+                <button class="btn" onclick="detectAnomalies()" style="padding: 8px 16px;">
+                    Anomaly Detect
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>Grid Balance<small>®</small></h1>
+                <p class="hero-subtitle">Demand Forecast & Meter Anomaly Detection for Production Power Systems</p>
+                <p style="margin: 20px 0; font-size: 14px; color: var(--muted);">
+                    Real-time grid monitoring with AI-powered forecasting and anomaly detection
+                </p>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px;">
+                    <div class="stat-value" id="region-value">Loading...</div>
+                    <div class="stat-label" style="font-size: 11px; color: var(--muted);">Region</div>
+                </div>
+            </div>
+            
+            <div id="three-container" class="glass-card" style="min-height: 400px; margin-top: 20px;"></div>
+        </div>
+
+        <div class="content-grid">
+            <div class="forecast-panel panel" style="grid-column: 1 / -1;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px;">Demand Forecast</h3>
+                    <button class="btn small-btn" style="padding: 6px 12px; font-size: 12px;">Run</button>
+                </div>
+                <div id="forecast-results" style="display: none; min-height: 80px;">
+                    <p style="color: var(--muted); font-size: 12px; padding: 8px;">Select region and click Forecast</p>
+                </div>
+            </div>
+
+            <div class="anomaly-panel panel" style="grid-column: 1 / -1; margin-top: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1;">Meter Anomaly Detection</h3>
+                    <button class="btn small-btn" style="padding: 6px 12px; font-size: 12px;" onclick="detectAnomalies()">Detect</button>
+                </div>
+                <div id="anomaly-results" style="display: none; min-height: 80px;">
+                    <p style="color: var(--muted); font-size: 12px; padding: 8px;">Click Detect above</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { createApp } from './static/js/app.js';
+        createApp();
+    </script>
+</body>
+</html>

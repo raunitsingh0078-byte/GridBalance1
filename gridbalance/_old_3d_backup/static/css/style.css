@@ -1,0 +1,163 @@
+/* Glassmorphism and Glosomorphic Effects */
+:root {
+    --bg: #0a0e17;
+    --bg-secondary: #111827;
+    --fg: #e8edf5;
+    --muted: #6b7c93;
+    --accent: #00d4aa;
+    --accent-secondary: #0088a9;
+    --card-bg: rgba(17, 24, 39, 0.7);
+    --border: rgba(255, 255, 255, 0.1);
+    --glow: rgba(0, 212, 170, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, #root {
+    height: 100%;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism panel */
+.panel {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.panel:hover {
+    border-color: rgba(0, 212, 170, 0.3);
+    box-shadow: 0 8px 32px var(--glow);
+}
+
+/* Glosomorphic button */
+.btn {
+    position: relative;
+    padding: 12px 24px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px var(--glow);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Glass card */
+.glass-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(20px);
+}
+
+/* Cursor trail */
+.cursor-trail {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
+    mix-blend-mode: difference;
+}
+
+.cursor-trail.circle {
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+}
+
+.cursor-trail.line {
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+}
+
+/* 3D scene container */
+#three-container {
+    min-height: 400px;
+    background: var(--bg-secondary);
+}
+
+/* Stats display */
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

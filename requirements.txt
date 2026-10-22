@@ -1,0 +1,8 @@
+# Grid Balance Project
+# Install with:  python -m pip install -r requirements.txt
+
+Flask==3.1.3
+pandas==3.0.5
+numpy==2.5.2
+scikit-learn==1.9.0
+pyarrow==25.0.1
