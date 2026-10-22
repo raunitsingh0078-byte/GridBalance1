@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-from load_data import (
+from .load_data import (
     DATA_DIR,
     DATE_COLUMN,
     DEFAULT_REGION,
