@@ -7,7 +7,7 @@ from .anomaly_detection import (
     get_anomaly_form_options,
 )
 from .eda_charts import get_eda_report
-from load_data import (
+from .load_data import (
     DEFAULT_REGION,
     get_archives_overview,
     get_combined_summary,

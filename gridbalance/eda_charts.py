@@ -21,7 +21,7 @@ import math
 import numpy as np
 import pandas as pd
 
-from load_data import (
+from .load_data import (
     DATE_COLUMN,
     DEFAULT_REGION,
     TARGET,
@@ -29,7 +29,7 @@ from load_data import (
     load_data,
     resolve_region,
 )
-from preprocessing import clean_series
+from .preprocessing import clean_series
 
 
 # =========================================================

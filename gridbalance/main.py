@@ -10,11 +10,11 @@ import warnings
 import numpy as np
 import pandas as pd
 
-from anomaly_detection import detect_anomalies, get_threshold
-from load_data import DEFAULT_REGION, get_data_summary, list_regions, load_data
-from model_training import train_models
-from prediction import forecast
-from preprocessing import clean_series, get_preprocessing_summary
+from .anomaly_detection import detect_anomalies, get_threshold
+from .load_data import DEFAULT_REGION, get_data_summary, list_regions, load_data
+from .model_training import train_models
+from .prediction import forecast
+from .preprocessing import clean_series, get_preprocessing_summary
 
 
 warnings.filterwarnings("ignore")

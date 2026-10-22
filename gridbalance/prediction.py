@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from load_data import (
+from .load_data import (
     DATE_COLUMN,
     DEFAULT_REGION,
     TARGET,
@@ -10,8 +10,8 @@ from load_data import (
     load_data,
     resolve_region,
 )
-from model_training import get_trained_model, get_models
-from preprocessing import (
+from .model_training import get_trained_model, get_models
+from .preprocessing import (
     FEATURE_COLUMNS,
     LAGS,
     ROLLING_WINDOWS,

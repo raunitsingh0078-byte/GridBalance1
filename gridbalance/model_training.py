@@ -17,8 +17,8 @@ from sklearn.metrics import (
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from load_data import DEFAULT_REGION, TARGET, get_region_label, resolve_region
-from preprocessing import FEATURE_COLUMNS, prepare_dataset
+from .load_data import DEFAULT_REGION, TARGET, get_region_label, resolve_region
+from .preprocessing import FEATURE_COLUMNS, prepare_dataset
 
 
 # =========================================================

@@ -9,14 +9,14 @@ one table.
 import numpy as np
 import pandas as pd
 
-from eda_charts import (
+from .eda_charts import (
     PALETTE,
     bar_chart,
     donut_chart,
     multiline_chart,
     value_heatmap,
 )
-from load_data import (
+from .load_data import (
     DATE_COLUMN,
     TARGET,
     list_regions,
