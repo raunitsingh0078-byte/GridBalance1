@@ -11,7 +11,7 @@ from .load_data import (
     list_regions,
     resolve_region,
 )
-from preprocessing import clean_series, load_data
+from .preprocessing import clean_series, load_data
 
 
 # =========================================================
