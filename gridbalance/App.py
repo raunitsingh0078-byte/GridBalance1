@@ -15,10 +15,10 @@ from .load_data import (
     list_regions,
     resolve_region,
 )
-from model_training import train_models
-from network_overview import NETWORK_COLORS, get_network_report
-from prediction import get_forecast_form_options, predict_demand
-from preprocessing import get_preprocessing_summary
+from .model_training import train_models
+from .network_overview import NETWORK_COLORS, get_network_report
+from .prediction import get_forecast_form_options, predict_demand
+from .preprocessing import get_preprocessing_summary
 
 
 app = Flask(__name__)
